@@ -62,7 +62,8 @@ public class LoginServlet extends HttpServlet {
                 
                 response.sendRedirect("home");
             } else {
-
+                request.setAttribute("username", username);
+                request.setAttribute("message", "Username or password is invalid.");
             }
         }
 
