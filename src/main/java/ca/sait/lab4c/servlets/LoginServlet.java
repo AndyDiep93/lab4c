@@ -29,15 +29,16 @@ public class LoginServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        
-        if (session.getAttribute("username") != null){
-            response.sendRedirect("home");
-            return;
-        }
-        
-        String query = request.getQueryString();
 
-        if (query != null && query.contains("logout")) {
+        if (session.getAttribute("username") != null) {
+            String query = request.getQueryString();
+
+            if (query != null && query.contains("logout")) {
+                session.invalidate();
+            } else {
+                response.sendRedirect("home");
+                return;
+            }
 
         }
 
@@ -67,13 +68,13 @@ public class LoginServlet extends HttpServlet {
 
             if (user != null) {
                 request.getSession().setAttribute("username", username);
-                
+
                 response.sendRedirect("home");
                 return;
             } else {
                 request.setAttribute("username", username);
                 request.setAttribute("message", "Username or password is invalid.");
-                
+
             }
         }
 
