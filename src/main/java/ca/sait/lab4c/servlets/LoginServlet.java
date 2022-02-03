@@ -1,5 +1,7 @@
 package ca.sait.lab4c.servlets;
 
+import ca.sait.lab4c.models.User;
+import ca.sait.lab4c.services.AccountService;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -12,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author andyd
  */
 public class LoginServlet extends HttpServlet {
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -25,11 +28,11 @@ public class LoginServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String query = request.getQueryString();
-        
+
         if (query != null && query.contains("logout")) {
-            
+
         }
-        
+
         getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
     }
 
@@ -44,14 +47,23 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String username= request.getParameter("username");
-        String password= request.getParameter("password");
-        
-        if (username == null || username.isEmpty() || password == null || password.isEmpty()){
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+
+        if (username == null || username.isEmpty() || password == null || password.isEmpty()) {
             request.setAttribute("message", "Username or password is missing.");
-            
+        } else {
+            AccountService account = new AccountService();
+
+            User user = account.login(username, password);
+
+            if (user != null) {
+                
+            } else {
+
+            }
         }
-        
+
         getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
     }
 
