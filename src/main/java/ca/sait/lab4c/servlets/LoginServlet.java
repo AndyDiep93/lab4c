@@ -28,6 +28,13 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        
+        if (session.getAttribute("username") != null){
+            response.sendRedirect("home");
+            return;
+        }
+        
         String query = request.getQueryString();
 
         if (query != null && query.contains("logout")) {
